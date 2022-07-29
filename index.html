@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dummy</title>
+    <style>
+        html, body {
+            padding: 0;
+            margin: 0;
+            background: #111;
+            color: #eee;
+            font-family: Consolas, monospace;
+        }
+
+        div {
+            padding: 55px;
+        }
+
+        h1 > span {
+            color: #0080ff;
+        }
+
+        button {
+            width: 55px;
+            height: 89px;
+            background: #888;
+            touch-action: manipulation;
+        }
+
+        button:hover {
+            background: #ccc;
+            cursor: pointer;
+        }
+    </style>
+    <script src="wasm_exec.js"></script>
+    <script src="main.js"></script>
+</head>
+<body>
+<div>
+    <h1>015-minisynth <span>^_^</span></h1>
+    <span id="stat">...</span><br /><br />
+    <span>Low Quality</span><br /><br />
+    <button class="note_button" data-midicode="48">C3</button>
+    <button class="note_button" data-midicode="50">D3</button>
+    <button class="note_button" data-midicode="52">E3</button>
+    <button class="note_button" data-midicode="53">F3</button>
+    <button class="note_button" data-midicode="55">G3</button>
+    <button class="note_button" data-midicode="57">A3</button>
+    <button class="note_button" data-midicode="59">B3</button>
+    <button class="note_button" data-midicode="60">C4</button>
+    <button class="note_button" data-midicode="62">D4</button>
+    <button class="note_button" data-midicode="64">E4</button>
+    <button class="note_button" data-midicode="65">F4</button>
+    <button class="note_button" data-midicode="67">G4</button>
+    <button class="note_button" data-midicode="69">A4</button>
+    <button class="note_button" data-midicode="71">B4</button>
+    <button class="note_button" data-midicode="72">C5</button>
+    <button class="note_button" data-midicode="74">D5</button>
+    <button class="note_button" data-midicode="76">E5</button>
+    <button class="note_button" data-midicode="77">F5</button>
+    <button class="note_button" data-midicode="79">G5</button>
+    <button class="note_button" data-midicode="81">A5</button>
+    <button class="note_button" data-midicode="83">B5</button>
+    <button class="note_button" data-midicode="84">C5</button>
+    <br /><br />
+    <span>High Quality</span><br /><br />
+    <button class="note_buttonh" data-midicode="48">C3</button>
+    <button class="note_buttonh" data-midicode="50">D3</button>
+    <button class="note_buttonh" data-midicode="52">E3</button>
+    <button class="note_buttonh" data-midicode="53">F3</button>
+    <button class="note_buttonh" data-midicode="55">G3</button>
+    <button class="note_buttonh" data-midicode="57">A3</button>
+    <button class="note_buttonh" data-midicode="59">B3</button>
+    <button class="note_buttonh" data-midicode="60">C4</button>
+    <button class="note_buttonh" data-midicode="62">D4</button>
+    <button class="note_buttonh" data-midicode="64">E4</button>
+    <button class="note_buttonh" data-midicode="65">F4</button>
+    <button class="note_buttonh" data-midicode="67">G4</button>
+    <button class="note_buttonh" data-midicode="69">A4</button>
+    <button class="note_buttonh" data-midicode="71">B4</button>
+    <button class="note_buttonh" data-midicode="72">C5</button>
+    <button class="note_buttonh" data-midicode="74">D5</button>
+    <button class="note_buttonh" data-midicode="76">E5</button>
+    <button class="note_buttonh" data-midicode="77">F5</button>
+    <button class="note_buttonh" data-midicode="79">G5</button>
+    <button class="note_buttonh" data-midicode="81">A5</button>
+    <button class="note_buttonh" data-midicode="83">B5</button>
+    <button class="note_buttonh" data-midicode="84">C5</button>
+</div>
+</body>
+</html>
