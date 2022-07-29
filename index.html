@@ -31,6 +31,15 @@
             background: #ccc;
             cursor: pointer;
         }
+
+        a {
+            color: #0080ff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
     <script src="wasm_exec.js"></script>
     <script src="main.js"></script>
@@ -38,8 +47,9 @@
 <body>
 <div>
     <h1>015-minisynth <span>^_^</span></h1>
-    <span id="stat">...</span><br /><br />
-    <span>Low Quality</span><br /><br />
+    <a href="https://github.com/MaxKlaxxMiner/golangMusicStudio" target="_blank">source-code...</a><br/><br/>
+    state: <span id="stat">...</span><br/><br/>
+    <span>Low Quality</span><br/><br/>
     <button class="note_button" data-midicode="48">C3</button>
     <button class="note_button" data-midicode="50">D3</button>
     <button class="note_button" data-midicode="52">E3</button>
@@ -62,8 +72,8 @@
     <button class="note_button" data-midicode="81">A5</button>
     <button class="note_button" data-midicode="83">B5</button>
     <button class="note_button" data-midicode="84">C5</button>
-    <br /><br />
-    <span>High Quality</span><br /><br />
+    <br/><br/>
+    <span>High Quality</span><br/><br/>
     <button class="note_buttonh" data-midicode="48">C3</button>
     <button class="note_buttonh" data-midicode="50">D3</button>
     <button class="note_buttonh" data-midicode="52">E3</button>
@@ -86,6 +96,8 @@
     <button class="note_buttonh" data-midicode="81">A5</button>
     <button class="note_buttonh" data-midicode="83">B5</button>
     <button class="note_buttonh" data-midicode="84">C5</button>
+    <br/><br/>
+    <span>... or play with computer keyboard! Base octave: </span><span id="octave" style="color:#fe0">1</span><span> (PageUp = + / PageDown = -)</span><br/><br/>
 </div>
 </body>
 </html>

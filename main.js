@@ -18,9 +18,59 @@ const wg = {
     workletWatError: "",
     workletWatWasm: null,
     workletWatReady: false,
+    workletWatVersion: 0,
 };
 window["wg"] = wg;
 const version = Date.now();
+const keyTones = {
+    Backquote: 46,
+    Tab: 47,
+    KeyQ: 48,
+    Digit2: 49,
+    KeyW: 50,
+    Digit3: 51,
+    KeyE: 52,
+    KeyR: 53,
+    Digit5: 54,
+    KeyT: 55,
+    Digit6: 56,
+    KeyY: 57,
+    Digit7: 58,
+    KeyU: 59,
+    KeyI: 60,
+    Digit9: 61,
+    KeyO: 62,
+    Digit0: 63,
+    KeyP: 64,
+    BracketLeft: 65,
+    Equal: 66,
+    BracketRight: 67,
+    Backspace: 68,
+    Enter: 69,
+    ShiftLeft: 33,
+    CapsLock: 34,
+    IntlBackslash: 35,
+    KeyZ: 36,
+    KeyS: 37,
+    KeyX: 38,
+    KeyD: 39,
+    KeyC: 40,
+    KeyV: 41,
+    KeyG: 42,
+    KeyB: 43,
+    KeyH: 44,
+    KeyN: 45,
+    KeyJ: 46,
+    KeyM: 47,
+    Comma: 48,
+    KeyL: 49,
+    Period: 50,
+    Semicolon: 51,
+    Slash: 52,
+    ShiftRight: 53,
+    Backslash: 54,
+};
+let baseOctave = 1;
 function initUserEvents() {
     onclick = () => {
         wg.userInput = true;
@@ -30,25 +80,53 @@ function initUserEvents() {
         wg.userInput = true;
         initAudio();
     };
-    onkeydown = (e) => {
-        switch (e.key) {
+    onkeydown = e => {
+        switch (e.key) { // special keys = no user input
             case "Alt":
             case "Control":
             case "Shift":
             case "CapsLock":
             case "Escape":
             case "ScrollLock":
-            case "NumLock":
-                return;
+            case "NumLock": {
+                break;
+            }
+            default: {
+                wg.userInput = true;
+                initAudio();
+                break;
+            }
         }
-        wg.userInput = true;
-        initAudio();
+        document.title = "key: " + e.code;
+        if (keyTones[e.code]) {
+            toneStart(keyTones[e.code] + baseOctave * 12, true);
+            e.preventDefault();
+        }
+        if (e.code === "PageUp") {
+            baseOctave++;
+            if (baseOctave > 4)
+                baseOctave = 4;
+            toneKill();
+            e.preventDefault();
+        }
+        if (e.code === "PageDown") {
+            baseOctave--;
+            if (baseOctave < -2)
+                baseOctave = -2;
+            toneKill();
+            e.preventDefault();
+        }
+    };
+    onkeyup = e => {
+        if (keyTones[e.code]) {
+            toneEnd(keyTones[e.code] + baseOctave * 12);
+            e.preventDefault();
+        }
     };
     // --- note-buttons ---
     const addNoteButtons = (noteButtons, hq) => {
         for (let i = 0; i < noteButtons.length; i++) {
             const button = noteButtons[i];
-            console.log(button);
             const code = parseInt(button.dataset.midicode);
             if (code) {
                 let active = false;
@@ -185,8 +263,13 @@ function workletReceiveMessage(msg) {
             workletSendMessage(null);
             break;
         }
-        case "ok: watWasmReady": {
-            wg.workletWatReady = true;
+        default: {
+            if (msg.data.indexOf("ok: watWasmReady ") === 0) {
+                wg.workletWatReady = true;
+                wg.workletWatVersion = msg.data.substr(17);
+                break;
+            }
+            console.log("unknown message: \"" + msg.data + "\"");
             break;
         }
     }
@@ -197,6 +280,9 @@ function toneStart(midiCode, hq) {
 function toneEnd(midiCode) {
     workletSendMessage({ t: "toneEnd", val: midiCode });
 }
+function toneKill() {
+    workletSendMessage({ t: "toneKill" });
+}
 function updateStat() {
     const msg = txt => {
         const el = document.getElementById("stat");
@@ -204,7 +290,7 @@ function updateStat() {
             el.innerText = txt;
     };
     if (!wg.userInput)
-        return msg("wait for user input...");
+        return msg("wait for first user input...");
     if (!wg.mainGoInit)
         return msg("initMainGo() not started");
     if (wg.mainGoError)
@@ -237,7 +323,10 @@ function updateStat() {
         return msg("load worklet.wasm...");
     if (!wg.workletWatReady)
         return msg("worklet.wasm not ready");
-    msg("run: " + wg.audioContext.currentTime.toFixed(1) + " s - " + wg.workletBlockCount16 + " blocks - " + (wg.workletBlockCount16 * 16 * 128 / 1000000).toFixed(2) + "M samples");
+    msg("run: " + wg.audioContext.currentTime.toFixed(1) + " s - " + (wg.workletBlockCount16 * 16) + " blocks - " + (wg.workletBlockCount16 * 16 * 128 / 1000000).toFixed(2) + "M samples (wat version: " + (wg.workletWatVersion / 10000).toFixed(4) + ")");
+    const el = document.getElementById("octave");
+    if (el)
+        el.innerText = baseOctave.toString();
 }
 window.addEventListener("load", () => {
     setInterval(() => {
