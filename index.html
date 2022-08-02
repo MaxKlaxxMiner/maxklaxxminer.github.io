@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Golang Music Studio v0.01 - Mini Synth</title>
+    <title>Golang Music Studio v0.02 - Mini Synth</title>
     <style>
         html, body {
             padding: 0;
@@ -46,7 +46,7 @@
 </head>
 <body>
 <div>
-    <h1>Golang Music Studio v0.01 - Mini Synth <span>^_^</span></h1>
+    <h1>Golang Music Studio v0.02 - Mini Synth <span>^_^</span></h1>
     <a href="https://github.com/MaxKlaxxMiner/golangMusicStudio" target="_blank">source-code...</a><br/><br/>
     state: <span id="stat">...</span><br/><br/>
     <span>Low Quality</span><br/><br/>
@@ -97,7 +97,9 @@
     <button class="note_buttonh" data-midicode="83">B5</button>
     <button class="note_buttonh" data-midicode="84">C5</button>
     <br/><br/>
-    <span>... or play with computer keyboard! Base octave: </span><span id="octave" style="color:#fe0">1</span><span> (PageUp = + / PageDown = -)</span><br/><br/>
+    <input checked="checked" id="osc3" style="vertical-align: center" type="checkbox"/> OSC3
+    <br/><br/>
+    <span>... or play with computer keyboard! Base octave: </span><span id="octave" style="color:#fe0">0</span><span> (PageUp = + / PageDown = -)</span><br/><br/>
 </div>
 </body>
 </html>

@@ -70,7 +70,7 @@ const keyTones = {
     ShiftRight: 53,
     Backslash: 54,
 };
-let baseOctave = 1;
+let baseOctave = 0;
 function initUserEvents() {
     onclick = () => {
         wg.userInput = true;
@@ -275,7 +275,8 @@ function workletReceiveMessage(msg) {
     }
 }
 function toneStart(midiCode, hq) {
-    workletSendMessage({ t: "toneStart", val: midiCode, hq: hq });
+    const osc3 = document.getElementById("osc3") && document.getElementById("osc3").checked;
+    workletSendMessage({ t: "toneStart", val: midiCode, hq: hq, osc3: osc3 });
 }
 function toneEnd(midiCode) {
     workletSendMessage({ t: "toneEnd", val: midiCode });
