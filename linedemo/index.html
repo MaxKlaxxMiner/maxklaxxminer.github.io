@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Go wasm</title>
+    <script src="wasm_exec.js"></script>
+    <script>
+        window.addEventListener("load", () => {
+            if (!WebAssembly.instantiateStreaming) { // polyfill
+                WebAssembly.instantiateStreaming = async (resp, importObject) => {
+                    const source = await (await resp).arrayBuffer();
+                    return await WebAssembly.instantiate(source, importObject);
+                };
+            }
+
+            const go = new Go();
+            let mod, inst;
+            WebAssembly.instantiateStreaming(fetch("main.wasm"), go.importObject).then((result) => {
+                mod = result.module;
+                inst = result.instance;
+                go.run(inst);
+            }).catch((err) => {
+                const h = document.getElementById("loading");
+                h.style.color = "#f30";
+                console.error(err);
+                h.innerHTML = err;
+            });
+        });
+    </script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: #222;
+            overflow: hidden;
+        }
+        canvas {
+            margin: 0;
+            padding: 0;
+            background: #000;
+        }
+        h1 {
+            font-size: 16px;
+            margin-left: 16px;
+            font-family: "jetbrains mono", "Lucida Console", monospace;
+            color: #08f;
+        }
+    </style>
+</head>
+<body>
+<h1 id="loading">loading WASM...</h1>
+</body>
+</html>
